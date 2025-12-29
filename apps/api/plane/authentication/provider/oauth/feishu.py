@@ -1,5 +1,6 @@
 # Python imports
 import os
+import logging
 from datetime import datetime
 from urllib.parse import urlencode
 
@@ -13,6 +14,8 @@ from plane.authentication.adapter.error import (
     AUTHENTICATION_ERROR_CODES,
     AuthenticationException,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class FeishuOAuthProvider(OauthAdapter):
@@ -79,13 +82,11 @@ class FeishuOAuthProvider(OauthAdapter):
                 "client_id": self.client_id,
                 "client_secret": self.client_secret,
             }
-            print(f"Feishu token request URL: {self.get_token_url()}")
-            print(f"Feishu token request data: {request_data}")
+            logger.debug(f"Feishu token request URL: {self.get_token_url()}")
             
             response = requests.post(self.get_token_url(), json=request_data, headers=headers)
             
-            print(f"Feishu token response status: {response.status_code}")
-            print(f"Feishu token response body: {response.text}")
+            logger.debug(f"Feishu token response status: {response.status_code}")
             
             response.raise_for_status()
             response_data = response.json()
@@ -93,12 +94,12 @@ class FeishuOAuthProvider(OauthAdapter):
             # Check Feishu API response code
             if response_data.get("code") != 0:
                 error_msg = response_data.get('msg', 'Unknown error')
-                print(f"Feishu API error response: {response_data}")
+                logger.error(f"Feishu API error: {error_msg}")
                 raise requests.RequestException(f"Feishu API error: {error_msg}")
             
             return response_data
         except requests.RequestException as e:
-            print(f"Feishu token request error: {str(e)}")
+            logger.error(f"Feishu token request failed: {str(e)}")
             code = self.authentication_error_code()
             raise AuthenticationException(error_code=AUTHENTICATION_ERROR_CODES[code], error_message=str(code))
 
@@ -110,13 +111,11 @@ class FeishuOAuthProvider(OauthAdapter):
             access_token = self.token_data.get('access_token')
             headers = {"Authorization": f"Bearer {access_token}"}
             
-            print(f"Feishu user info request URL: {self.get_user_info_url()}")
-            print(f"Feishu user info access_token: {access_token[:50] if access_token else 'None'}...")
+            logger.debug(f"Feishu user info request URL: {self.get_user_info_url()}")
             
             response = requests.get(self.get_user_info_url(), headers=headers, timeout=10)
             
-            print(f"Feishu user info response status: {response.status_code}")
-            print(f"Feishu user info response body: {response.text}")
+            logger.debug(f"Feishu user info response status: {response.status_code}")
             
             response.raise_for_status()
             response_data = response.json()
@@ -124,14 +123,12 @@ class FeishuOAuthProvider(OauthAdapter):
             # Check Feishu API response code
             if response_data.get("code") != 0:
                 error_msg = response_data.get('msg', 'Unknown error')
-                print(f"Feishu user info API error: {response_data}")
+                logger.error(f"Feishu user info API error: {error_msg}")
                 raise requests.RequestException(f"Feishu API error: {error_msg}")
             
             return response_data
         except Exception as e:
-            print(f"Feishu user info request error: {type(e).__name__}: {str(e)}")
-            import traceback
-            traceback.print_exc()
+            logger.error(f"Feishu user info request failed: {type(e).__name__}: {str(e)}")
             code = self.authentication_error_code()
             raise AuthenticationException(error_code=AUTHENTICATION_ERROR_CODES[code], error_message=str(code))
 
@@ -188,15 +185,14 @@ class FeishuOAuthProvider(OauthAdapter):
         email = user_info.get("email") or user_info.get("enterprise_email")
         open_id = user_info.get("open_id")
         
-        # Debug: print user info to check what we received
-        print(f"Feishu user info: email={email}, enterprise_email={user_info.get('enterprise_email')}, open_id={open_id}, name={user_info.get('name')}")
+        logger.debug(f"Feishu user info retrieved: has_email={bool(email)}, has_open_id={bool(open_id)}")
         
         # If no email is configured in Feishu account, use union_id as fallback
         # This allows users without email to still login
         if not email:
             union_id = user_info.get("union_id")
             email = f"{union_id}@feishu.local" if union_id else f"{open_id}@feishu.local"
-            print(f"Warning: No email configured in Feishu account, using fallback email: {email}")
+            logger.warning(f"No email configured in Feishu account, using fallback email domain: feishu.local")
         
         user_data = {
             "email": email,
