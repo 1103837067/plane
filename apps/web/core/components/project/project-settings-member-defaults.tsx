@@ -133,7 +133,7 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
 
   return (
     <div className="flex flex-col gap-y-6 my-6">
-      <DefaultSettingItem title="Project Lead" description="Select the project lead for the project.">
+      <DefaultSettingItem title={t("project_settings.members.project_lead.title")} description={t("project_settings.members.project_lead.description")}>
         {currentProjectDetails ? (
           <Controller
             control={control}
@@ -154,7 +154,7 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
           </Loader>
         )}
       </DefaultSettingItem>
-      <DefaultSettingItem title="Default Assignee" description="Select the default assignee for the project.">
+      <DefaultSettingItem title={t("project_settings.members.default_assignee.title")} description={t("project_settings.members.default_assignee.description")}>
         {currentProjectDetails ? (
           <Controller
             control={control}
@@ -177,8 +177,8 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
       </DefaultSettingItem>
       {currentProjectDetails && (
         <DefaultSettingItem
-          title="Guest access"
-          description="This will allow guests to have view access to all the project work items."
+          title={t("project_settings.members.guest_access.title")}
+          description={t("project_settings.members.guest_access.description")}
         >
           <div className="flex items-center justify-end">
             <ToggleSwitch

@@ -2,10 +2,10 @@ import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 // ui
-import { useTranslation } from "@plane/i18n";
+import { useTranslation, useTimeAgo } from "@plane/i18n";
 import { EmptyStateCompact } from "@plane/propel/empty-state";
 import { Loader, Card } from "@plane/ui";
-import { calculateTimeAgo, getFileURL } from "@plane/utils";
+import { getFileURL } from "@plane/utils";
 // components
 import { ActivityMessage, IssueLink } from "@/components/core/activity";
 // constants
@@ -23,6 +23,7 @@ export const ProfileActivity = observer(function ProfileActivity() {
   // store hooks
   const { data: currentUser } = useUser();
   const { t } = useTranslation();
+  const { timeAgo } = useTimeAgo();
 
   const { data: userProfileActivity } = useSWR(
     workspaceSlug && userId ? USER_PROFILE_ACTIVITY(workspaceSlug.toString(), userId.toString(), {}) : null,
@@ -60,18 +61,18 @@ export const ProfileActivity = observer(function ProfileActivity() {
                     <p className="inline text-13 text-secondary">
                       <span className="font-medium text-primary">
                         {currentUser?.id === activity.actor_detail?.id
-                          ? "You"
+                          ? t("common.you")
                           : activity.actor_detail?.display_name}{" "}
                       </span>
                       {activity.field ? (
                         <ActivityMessage activity={activity} showIssue />
                       ) : (
                         <span>
-                          created <IssueLink activity={activity} />
+                          {t("profile.activity.created")} <IssueLink activity={activity} />
                         </span>
                       )}
                     </p>
-                    <p className="text-11 text-secondary whitespace-nowrap ">{calculateTimeAgo(activity.created_at)}</p>
+                    <p className="text-11 text-secondary whitespace-nowrap ">{timeAgo(activity.created_at)}</p>
                   </div>
                 </div>
               ))}

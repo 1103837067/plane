@@ -3,6 +3,8 @@ import { observer } from "mobx-react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 // constants
 import { EPageAccess, PROJECT_PAGE_TRACKER_EVENTS, PROJECT_TRACKER_ELEMENTS } from "@plane/constants";
+// plane i18n
+import { useTranslation } from "@plane/i18n";
 // plane types
 import { Button } from "@plane/propel/button";
 import { PageIcon } from "@plane/propel/icons";
@@ -22,6 +24,8 @@ import { EPageStoreType, usePageStore } from "@/plane-web/hooks/store";
 export const PagesListHeader = observer(function PagesListHeader() {
   // states
   const [isCreatingPage, setIsCreatingPage] = useState(false);
+  // hooks
+  const { t } = useTranslation();
   // router
   const router = useRouter();
   const { workspaceSlug, projectId } = useParams();
@@ -49,8 +53,9 @@ export const PagesListHeader = observer(function PagesListHeader() {
         });
         const pageId = `/${workspaceSlug}/projects/${currentProjectDetails?.id}/pages/${res?.id}`;
         router.push(pageId);
+        return undefined;
       })
-      .catch((err) => {
+      .catch((err: { data?: { error?: string } }) => {
         captureError({
           eventName: PROJECT_PAGE_TRACKER_EVENTS.create,
           payload: {
@@ -62,6 +67,7 @@ export const PagesListHeader = observer(function PagesListHeader() {
           title: "Error!",
           message: err?.data?.error || "Page could not be created. Please try again.",
         });
+        return undefined;
       })
       .finally(() => setIsCreatingPage(false));
   };
@@ -74,7 +80,7 @@ export const PagesListHeader = observer(function PagesListHeader() {
           <Breadcrumbs.Item
             component={
               <BreadcrumbLink
-                label="Pages"
+                label={t("project_page.header.pages")}
                 href={`/${workspaceSlug}/projects/${currentProjectDetails?.id}/pages/`}
                 icon={<PageIcon className="h-4 w-4 text-tertiary" />}
                 isLast
@@ -89,11 +95,11 @@ export const PagesListHeader = observer(function PagesListHeader() {
           <Button
             variant="primary"
             size="lg"
-            onClick={handleCreatePage}
+            onClick={() => void handleCreatePage()}
             loading={isCreatingPage}
             data-ph-element={PROJECT_TRACKER_ELEMENTS.CREATE_HEADER_BUTTON}
           >
-            {isCreatingPage ? "Adding" : "Add page"}
+            {isCreatingPage ? t("project_page.header.adding") : t("project_page.header.add_page")}
           </Button>
         </Header.RightItem>
       )}

@@ -1,28 +1,31 @@
 import { observer } from "mobx-react";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
+import { useTranslation } from "@plane/i18n";
 import { cn } from "@plane/utils";
 import { useProject } from "@/hooks/store/use-project";
 
 const TABS = {
   account: {
     key: "account",
-    label: "Account",
+    i18n_label: "common.settings.tabs.account",
     href: `/settings/account/`,
   },
   workspace: {
     key: "workspace",
-    label: "Workspace",
+    i18n_label: "common.settings.tabs.workspace",
     href: `/settings/`,
   },
   projects: {
     key: "projects",
-    label: "Projects",
+    i18n_label: "common.settings.tabs.projects",
     href: `/settings/projects/`,
   },
 };
 
 const SettingsTabs = observer(function SettingsTabs() {
+  // hooks
+  const { t } = useTranslation();
   // router
   const pathname = usePathname();
   const { workspaceSlug } = useParams();
@@ -52,7 +55,7 @@ const SettingsTabs = observer(function SettingsTabs() {
               }
             )}
           >
-            <div className="text-11 font-semibold p-1">{tab.label}</div>
+            <div className="text-11 font-semibold p-1">{t(tab.i18n_label)}</div>
           </Link>
         );
       })}

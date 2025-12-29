@@ -36,7 +36,7 @@ export function ProfileStateDistribution({ stateDistribution, userProfile }: Pro
                   id: group.state_group,
                   key: group.state_group,
                   value: group.state_count,
-                  name: capitalizeFirstLetter(group.state_group),
+                  name: t(`workspace_projects.state.${group.state_group}`),
                   color: STATE_GROUPS[group.state_group]?.color,
                 })) ?? []
               }
@@ -63,7 +63,7 @@ export function ProfileStateDistribution({ stateDistribution, userProfile }: Pro
                             STATE_GROUPS[group.state_group]?.color ?? "var(--background-color-accent-primary)",
                         }}
                       />
-                      <div className="whitespace-nowrap">{STATE_GROUPS[group.state_group].label}</div>
+                      <div className="whitespace-nowrap">{t(`workspace_projects.state.${group.state_group}`)}</div>
                     </div>
                     <div>{group.state_count}</div>
                   </div>

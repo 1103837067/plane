@@ -1,10 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { observer } from "mobx-react";
 import { createPortal } from "react-dom";
 import { usePopper } from "react-popper";
 import { CalendarDays } from "lucide-react";
 import { Combobox } from "@headlessui/react";
 // ui
+import { getDateFnsLocale, useTranslation } from "@plane/i18n";
 import type { Matcher } from "@plane/propel/calendar";
 import { Calendar } from "@plane/propel/calendar";
 import { CloseIcon } from "@plane/propel/icons";
@@ -71,6 +72,8 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   // hooks
   const { data } = useUserProfile();
+  const { currentLocale } = useTranslation();
+  const dateFnsLocale = useMemo(() => getDateFnsLocale(currentLocale), [currentLocale]);
   const startOfWeek = data?.start_of_the_week;
   // popper-js refs
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
@@ -199,6 +202,7 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
                 mode="single"
                 fixedWeeks
                 weekStartsOn={startOfWeek}
+                locale={dateFnsLocale}
               />
             </div>
           </Combobox.Options>,

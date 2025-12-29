@@ -14,6 +14,8 @@ from .views import (
     GitHubOauthInitiateEndpoint,
     GoogleCallbackEndpoint,
     GoogleOauthInitiateEndpoint,
+    FeishuCallbackEndpoint,
+    FeishuOauthInitiateEndpoint,
     MagicGenerateEndpoint,
     MagicSignInEndpoint,
     MagicSignUpEndpoint,
@@ -146,4 +148,7 @@ urlpatterns = [
         GiteaCallbackSpaceEndpoint.as_view(),
         name="space-gitea-callback",
     ),
+    ## Feishu Oauth
+    path("feishu/", FeishuOauthInitiateEndpoint.as_view(), name="feishu-initiate"),
+    path("feishu/callback/", FeishuCallbackEndpoint.as_view(), name="feishu-callback"),
 ]

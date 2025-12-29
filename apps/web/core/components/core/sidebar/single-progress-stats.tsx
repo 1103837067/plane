@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "@plane/i18n";
 
 type TSingleProgressStatsProps = {
   title: any;
@@ -9,6 +10,8 @@ type TSingleProgressStatsProps = {
 };
 
 export function SingleProgressStats({ title, completed, total, onClick, selected = false }: TSingleProgressStatsProps) {
+  const { t } = useTranslation();
+  
   return (
     <div
       className={`flex w-full items-center justify-between gap-4 rounded-xs p-1 text-11 ${
@@ -23,7 +26,7 @@ export function SingleProgressStats({ title, completed, total, onClick, selected
             {isNaN(Math.round((completed / total) * 100)) ? "0" : Math.round((completed / total) * 100)}%
           </span>
         </div>
-        <span>of {total}</span>
+        <span>{t("common.of_total", { total })}</span>
       </div>
     </div>
   );

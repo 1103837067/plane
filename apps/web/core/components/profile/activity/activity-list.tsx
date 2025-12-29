@@ -4,7 +4,8 @@ import { useParams } from "next/navigation";
 import { History, MessageSquare } from "lucide-react";
 // plane imports
 import type { IUserActivityResponse } from "@plane/types";
-import { calculateTimeAgo, getFileURL } from "@plane/utils";
+import { getFileURL } from "@plane/utils";
+import { useTimeAgo, useTranslation } from "@plane/i18n";
 // components
 import { ActivityIcon, ActivityMessage, IssueLink } from "@/components/core/activity";
 import { RichTextEditor } from "@/components/editor/rich-text";
@@ -18,6 +19,9 @@ type Props = {
 };
 
 export const ActivityList = observer(function ActivityList(props: Props) {
+  // hooks
+  const { timeAgo } = useTimeAgo();
+  const { t } = useTranslation();
   const { activity } = props;
   // params
   const { workspaceSlug } = useParams();
@@ -66,7 +70,7 @@ export const ActivityList = observer(function ActivityList(props: Props) {
                             : activityItem.actor_detail.display_name}
                         </div>
                         <p className="mt-0.5 text-11 text-secondary">
-                          Commented {calculateTimeAgo(activityItem.created_at)}
+                          Commented {timeAgo(activityItem.created_at)}
                         </p>
                       </div>
                       <div className="issue-comments-section p-0">
@@ -149,7 +153,7 @@ export const ActivityList = observer(function ActivityList(props: Props) {
                               >
                                 <span className="text-gray font-medium">
                                   {currentUser?.id === activityItem.actor_detail.id
-                                    ? "You"
+                                    ? t("common.you")
                                     : activityItem.actor_detail.display_name}
                                 </span>
                               </Link>
@@ -157,7 +161,7 @@ export const ActivityList = observer(function ActivityList(props: Props) {
                             <div className="inline gap-1">
                               {message}{" "}
                               <span className="flex-shrink-0 whitespace-nowrap">
-                                {calculateTimeAgo(activityItem.created_at)}
+                                {timeAgo(activityItem.created_at)}
                               </span>
                             </div>
                           </div>

@@ -357,13 +357,13 @@ export const InviteTeamStep = observer(function InviteTeamStep(props: Props) {
       }}
     >
       <CommonOnboardingHeader
-        title="Invite your teammates"
-        description="Work in plane happens best with your team. Invite them now to use Plane to its potential."
+        title={t("auth.onboarding.team.title")}
+        description={t("auth.onboarding.team.description")}
       />
       <div className="w-full text-13 py-4">
         <div className="group relative grid grid-cols-10 gap-4 mx-8 py-2">
-          <div className="col-span-6 px-1 text-13 text-secondary font-medium">Email</div>
-          <div className="col-span-4 px-1 text-13 text-secondary font-medium">Role</div>
+          <div className="col-span-6 px-1 text-13 text-secondary font-medium">{t("auth.onboarding.team.email")}</div>
+          <div className="col-span-4 px-1 text-13 text-secondary font-medium">{t("auth.onboarding.team.role")}</div>
         </div>
         <div className="mb-3 space-y-3 sm:space-y-4">
           {fields.map((field, index) => (

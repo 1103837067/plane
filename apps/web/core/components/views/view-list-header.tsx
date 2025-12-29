@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 // icons
 import { ListFilter, Search } from "lucide-react";
 import { useOutsideClickDetector } from "@plane/hooks";
+import { useTranslation } from "@plane/i18n";
 import { CloseIcon } from "@plane/propel/icons";
 // plane helpers
 // helpers
@@ -21,6 +22,7 @@ export const ViewListHeader = observer(function ViewListHeader() {
   // refs
   const inputRef = useRef<HTMLInputElement>(null);
   // store hooks
+  const { t } = useTranslation();
   const { filters, updateFilters } = useProjectView();
   const {
     project: { projectMemberIds },
@@ -104,7 +106,7 @@ export const ViewListHeader = observer(function ViewListHeader() {
         />
         <FiltersDropdown
           icon={<ListFilter className="h-3 w-3" />}
-          title="Filters"
+          title={t("common.filters")}
           placement="bottom-end"
           isFiltersApplied={false}
         >

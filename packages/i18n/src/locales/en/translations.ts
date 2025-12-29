@@ -1,4 +1,60 @@
 export default {
+  auth: {
+    tagline: "Work in all dimensions.",
+    welcome_back: "Welcome back to Plane.",
+    create_account_tagline: "Create your Plane account.",
+    terms_and_conditions: {
+      by_signing_in: "By signing in, you understand and agree to",
+      by_creating_account: "By creating an account, you understand and agree to",
+      our: "our",
+      terms_of_service: "Terms of Service",
+      and: "and",
+      privacy_policy: "Privacy Policy",
+    },
+    create_account_button: "Create account",
+    oauth: {
+      with: "with",
+      sign_in_with: "Sign in with {provider}",
+      sign_up_with: "Sign up with {provider}",
+    },
+    workspace_restriction: "You don't seem to have any invites to a workspace and your instance admin has restricted creation of new workspaces. Please ask a workspace owner or admin to invite you to a workspace first and come back to this screen to join.",
+    onboarding: {
+      continue: "Continue",
+      skip: "Skip",
+      role: {
+        title: "What's your role?",
+        description: "Let's set up Plane for how you work.",
+        select_one: "Select one",
+        product_manager: "Product Manager",
+        engineering_manager: "Engineering Manager",
+        designer: "Designer",
+        developer: "Developer",
+        qa_engineer: "QA Engineer",
+        founder_executive: "Founder/Executive",
+        operations_manager: "Operations Manager",
+        others: "Others",
+        required: "This field is required",
+        success: "Profile setup completed!",
+        error: "Profile setup failed. Please try again!",
+      },
+      use_case: {
+        title: "What brings you to Plane?",
+        description: "Tell us your goals and team size.",
+        select_one_or_more: "Select one or more",
+        required: "Please select at least one option",
+      },
+      profile: {
+        title: "Create your profile.",
+        description: "This is how you will appear in Plane.",
+      },
+      team: {
+        title: "Invite your teammates",
+        description: "Work in plane happens best with your team. Invite them now to use Plane to its potential.",
+        email: "Email",
+        role: "Role",
+      },
+    },
+  },
   submit: "Submit",
   cancel: "Cancel",
   loading: "Loading",
@@ -500,7 +556,9 @@ export default {
     assignees: "Assignees",
     assignee: "Assignee",
     created_by: "Created by",
+    you: "You",
     none: "None",
+    of_total: "of {total}",
     link: "Link",
     estimates: "Estimates",
     estimate: "Estimate",
@@ -723,7 +781,6 @@ export default {
     coming_soon: "Coming soon",
     member: "Member",
     members: "Members",
-    you: "You",
     upgrade_cta: {
       higher_subscription: "Upgrade to higher subscription",
       talk_to_sales: "Talk to Sales",
@@ -1616,6 +1673,9 @@ export default {
     label: "Profile",
     page_label: "Your work",
     work: "Work",
+    activity: {
+      created: "created",
+    },
     details: {
       joined_on: "Joined on",
       time_zone: "Timezone",
@@ -1699,8 +1759,20 @@ export default {
     },
     members: {
       label: "Members",
-      project_lead: "Project lead",
-      default_assignee: "Default assignee",
+      project_lead: {
+        label: "Project lead",
+        title: "Project Lead",
+        description: "Select the project lead for the project.",
+      },
+      default_assignee: {
+        label: "Default assignee",
+        title: "Default Assignee",
+        description: "Select the default assignee for the project.",
+      },
+      guest_access: {
+        title: "Guest access",
+        description: "This will allow guests to have view access to all the project work items.",
+      },
       guest_super_permissions: {
         title: "Grant view access to all work items for guest users:",
         sub_heading: "This will allow guests to have view access to all the project work items.",
@@ -2061,11 +2133,13 @@ export default {
     },
   },
   project_views: {
+    views: "Views",
+    add_view: "Add view",
     empty_state: {
       general: {
         title: "Save filtered views for your project. Create as many as you need",
         description:
-          "Views are a set of saved filters that you use frequently or want easy access to. All your colleagues in a project can see everyone’s views and choose whichever suits their needs best.",
+          "Views are a set of saved filters that you use frequently or want easy access to. All your colleagues in a project can see everyone's views and choose whichever suits their needs best.",
         primary_button: {
           text: "Create your first view",
           comic: {
@@ -2086,6 +2160,18 @@ export default {
     },
   },
   project_page: {
+    header: {
+      pages: "Pages",
+      add_page: "Add page",
+      adding: "Adding",
+    },
+    sort: {
+      name: "Name",
+      date_created: "Date created",
+      date_modified: "Date modified",
+      ascending: "Ascending",
+      descending: "Descending",
+    },
     empty_state: {
       general: {
         title:
@@ -2290,6 +2376,7 @@ export default {
     all: "All stickies",
     "no-data": "Jot down an idea, capture an aha, or record a brainwave. Add a sticky to get started.",
     add: "Add sticky",
+    add_sticky: "Add sticky",
     search_placeholder: "Search by title",
     delete: "Delete sticky",
     delete_confirmation: "Are you sure you want to delete this sticky?",
@@ -2405,6 +2492,27 @@ export default {
     assigned: "Assigned",
     created: "Created",
     subscribed: "Subscribed",
+  },
+  charts: {
+    progress: {
+      current: "Current {plotTitle}",
+      ideal: "Ideal {plotTitle}",
+      date: "Date",
+      completion: "Completion",
+    },
+  },
+  issue_activity: {
+    created_work_item: "created the work item",
+    created_work_item_via: "created the work item via",
+    deleted_work_item: "deleted a work item",
+    set_state_to: "set the state to",
+    for: "for",
+    added_to_module: "added this work item to the module",
+    set_module_to: "set the module to",
+    removed_from_module: "removed the work item from the module",
+    added_to_cycle: "added this work item to the cycle",
+    set_cycle_to: "set the cycle to",
+    removed_from_cycle: "removed the work item from the cycle",
   },
   themes: {
     theme_options: {
@@ -2707,6 +2815,16 @@ export default {
   enter_number_of_projects: "Enter number of projects",
   pin: "Pin",
   unpin: "Unpin",
+  app_rail: {
+    settings: "Settings",
+    icon_only: "Icon only",
+    icon_with_name: "Icon with name",
+    dock_app_rail: "Dock App Rail",
+    undock_app_rail: "Undock App Rail",
+  },
+  power_k_search: {
+    placeholder: "Search commands...",
+  },
   sidebar: {
     stickies: "Stickies",
     your_work: "Your work",

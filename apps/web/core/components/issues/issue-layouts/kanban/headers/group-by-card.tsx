@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 // lucide icons
 import { Minimize2, Maximize2, Circle, Plus } from "lucide-react";
 import { WORK_ITEM_TRACKER_EVENTS } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TIssue, ISearchIssueResponse, TIssueKanbanFilters, TIssueGroupByOptions } from "@plane/types";
 // ui
@@ -55,11 +56,18 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
   const [openExistingIssueListModal, setOpenExistingIssueListModal] = React.useState(false);
   // hooks
   const storeType = useIssueStoreType();
+  const { t } = useTranslation();
   // router
   const { workspaceSlug, projectId, moduleId, cycleId } = useParams();
 
   const renderExistingIssueModal = moduleId || cycleId;
   const ExistingIssuesListModalPayload = moduleId ? { module: moduleId.toString() } : { cycle: true };
+  
+  // Translate state group names
+  const displayTitle =
+    group_by === "state_detail.group" && ["backlog", "unstarted", "started", "completed", "cancelled"].includes(column_id)
+      ? t(`workspace_projects.state.${column_id}`)
+      : title;
 
   const handleAddIssuesToView = async (data: ISearchIssueResponse[]) => {
     if (!workspaceSlug || !projectId) return;
@@ -125,7 +133,7 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
               verticalAlignPosition ? `vertical-lr max-h-[400px]` : ``
             }`}
           >
-            {title}
+            {displayTitle}
           </div>
           <div
             className={`flex-shrink-0 text-13 font-medium text-tertiary ${verticalAlignPosition ? `pr-0.5` : `pl-2`}`}

@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import { CircleDashed, Plus } from "lucide-react";
 // types
 import { WORK_ITEM_TRACKER_EVENTS } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TIssue, ISearchIssueResponse, TIssueGroupByOptions } from "@plane/types";
 // ui
@@ -58,12 +59,19 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
   // router
   const { workspaceSlug, projectId, moduleId, cycleId } = useParams();
   const storeType = useIssueStoreType();
+  const { t } = useTranslation();
   // derived values
   const renderExistingIssueModal = moduleId || cycleId;
   const existingIssuesListModalPayload = moduleId ? { module: moduleId.toString() } : { cycle: true };
   const isGroupSelectionEmpty = selectionHelpers.isGroupSelected(groupID) === "empty";
   // auth
   const canSelectIssues = canEditProperties(projectId?.toString()) && !selectionHelpers.isSelectionDisabled;
+  
+  // Translate state group names
+  const displayTitle =
+    groupBy === "state_detail.group" && ["backlog", "unstarted", "started", "completed", "cancelled"].includes(groupID)
+      ? t(`workspace_projects.state.${groupID}`)
+      : title;
 
   const handleAddIssuesToView = async (data: ISearchIssueResponse[]) => {
     if (!workspaceSlug || !projectId) return;
@@ -113,7 +121,7 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
           className="relative flex w-full flex-row items-center gap-1 overflow-hidden cursor-pointer"
           onClick={() => handleCollapsedGroups(groupID)}
         >
-          <div className="inline-block line-clamp-1 truncate font-medium text-primary">{title}</div>
+          <div className="inline-block line-clamp-1 truncate font-medium text-primary">{displayTitle}</div>
           <div className="pl-2 text-13 font-medium text-tertiary">{count || 0}</div>
           <div className="px-2.5">
             <WorkFlowGroupTree groupBy={groupBy} groupId={groupID} />

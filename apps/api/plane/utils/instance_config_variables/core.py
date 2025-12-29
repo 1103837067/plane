@@ -140,6 +140,27 @@ gitea_config_variables = [
     },
 ]
 
+feishu_config_variables = [
+    {
+        "key": "FEISHU_APP_ID",
+        "value": os.environ.get("FEISHU_APP_ID"),
+        "category": "FEISHU",
+        "is_encrypted": False,
+    },
+    {
+        "key": "FEISHU_APP_SECRET",
+        "value": os.environ.get("FEISHU_APP_SECRET"),
+        "category": "FEISHU",
+        "is_encrypted": True,
+    },
+    {
+        "key": "ENABLE_FEISHU_SYNC",
+        "value": os.environ.get("ENABLE_FEISHU_SYNC", "0"),
+        "category": "FEISHU",
+        "is_encrypted": False,
+    },
+]
+
 smtp_config_variables = [
     {
         "key": "ENABLE_SMTP",
@@ -250,6 +271,7 @@ core_config_variables = [
     *github_config_variables,
     *gitlab_config_variables,
     *gitea_config_variables,
+    *feishu_config_variables,
     *smtp_config_variables,
     *llm_config_variables,
     *unsplash_config_variables,

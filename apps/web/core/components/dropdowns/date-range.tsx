@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import type { Placement } from "@popperjs/core";
 import { observer } from "mobx-react";
 import { createPortal } from "react-dom";
@@ -6,7 +6,7 @@ import { usePopper } from "react-popper";
 import { ArrowRight, CalendarDays } from "lucide-react";
 import { Combobox } from "@headlessui/react";
 // plane imports
-import { useTranslation } from "@plane/i18n";
+import { getDateFnsLocale, useTranslation } from "@plane/i18n";
 // ui
 import type { DateRange, Matcher } from "@plane/propel/calendar";
 import { Calendar } from "@plane/propel/calendar";
@@ -104,6 +104,8 @@ export const DateRangeDropdown = observer(function DateRangeDropdown(props: Prop
   const [dateRange, setDateRange] = useState<DateRange>(value);
   // hooks
   const { data } = useUserProfile();
+  const { currentLocale } = useTranslation();
+  const dateFnsLocale = useMemo(() => getDateFnsLocale(currentLocale), [currentLocale]);
   const startOfWeek = data?.start_of_the_week;
   // refs
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -274,6 +276,7 @@ export const DateRangeDropdown = observer(function DateRangeDropdown(props: Prop
           showOutsideDays
           fixedWeeks
           weekStartsOn={startOfWeek}
+          locale={dateFnsLocale}
           initialFocus
         />
       </div>

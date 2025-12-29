@@ -1,10 +1,9 @@
 import { observer } from "mobx-react";
 import { History } from "lucide-react";
 // plane imports
-import { useTranslation } from "@plane/i18n";
+import { useTranslation, useTimeAgo } from "@plane/i18n";
 import type { TDescriptionVersion } from "@plane/types";
 import { CustomMenu } from "@plane/ui";
-import { calculateTimeAgo } from "@plane/utils";
 // hooks
 import { useMember } from "@/hooks/store/use-member";
 // local imports
@@ -19,6 +18,8 @@ type Props = {
 };
 
 export const DescriptionVersionsDropdown = observer(function DescriptionVersionsDropdown(props: Props) {
+  // hooks
+  const { timeAgo } = useTimeAgo();
   const { disabled, entityInformation, onVersionClick, versions } = props;
   // store hooks
   const { getUserDetails } = useMember();
@@ -41,7 +42,7 @@ export const DescriptionVersionsDropdown = observer(function DescriptionVersions
           <p className="text-11">
             {t("description_versions.last_edited_by")}{" "}
             <span className="font-medium">{lastUpdatedByUserDisplayName ?? t("common.deactivated_user")}</span>{" "}
-            {calculateTimeAgo(lastUpdatedAt)}
+            {timeAgo(lastUpdatedAt)}
           </p>
         </div>
       }

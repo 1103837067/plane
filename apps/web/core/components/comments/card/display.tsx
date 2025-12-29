@@ -6,9 +6,10 @@ import { Globe2, Lock } from "lucide-react";
 // plane imports
 import type { EditorRefApi } from "@plane/editor";
 import { useHashScroll } from "@plane/hooks";
+import { useTimeAgo } from "@plane/i18n";
 import { EIssueCommentAccessSpecifier } from "@plane/types";
 import type { TCommentsOperations, TIssueComment } from "@plane/types";
-import { calculateTimeAgo, cn, getFileURL, renderFormattedDate, renderFormattedTime } from "@plane/utils";
+import { cn, getFileURL, renderFormattedDate, renderFormattedTime } from "@plane/utils";
 // components
 import { LiteTextEditor } from "@/components/editor/lite-text";
 // local imports
@@ -53,6 +54,8 @@ export const CommentCardDisplay = observer(function CommentCardDisplay(props: TC
   const [highlightClassName, setHighlightClassName] = useState("");
   // state
   const [isPickerOpen, setIsPickerOpen] = useState(false);
+  // hooks
+  const { timeAgo } = useTimeAgo();
   // store hooks
   const { getUserDetails } = useMember();
   // derived values
@@ -121,7 +124,7 @@ export const CommentCardDisplay = observer(function CommentCardDisplay(props: TC
               position="bottom"
             >
               <span className="text-tertiary">
-                {calculateTimeAgo(comment.created_at)}
+                {timeAgo(comment.created_at)}
                 {comment.edited_at && " (edited)"}
               </span>
             </Tooltip>

@@ -8,7 +8,7 @@ import useSWR from "swr";
 import { Download } from "lucide-react";
 import type { ChartXAxisDateGrouping } from "@plane/constants";
 import { ANALYTICS_X_AXIS_VALUES, ANALYTICS_Y_AXIS_VALUES, CHART_COLOR_PALETTES, EChartModels } from "@plane/constants";
-import { useTranslation } from "@plane/i18n";
+import { getDateFnsLocale, useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { BarChart } from "@plane/propel/charts/bar-chart";
 import { EmptyStateCompact } from "@plane/propel/empty-state";
@@ -44,7 +44,8 @@ interface Props {
 const analyticsService = new AnalyticsService();
 const PriorityChart = observer(function PriorityChart(props: Props) {
   const { x_axis, y_axis, group_by } = props;
-  const { t } = useTranslation();
+  const { t, currentLocale } = useTranslation();
+  const dateFnsLocale = useMemo(() => getDateFnsLocale(currentLocale), [currentLocale]);
   // store hooks
   const { selectedDuration, selectedProjects, selectedCycle, selectedModule, isPeekView, isEpic } = useAnalytics();
   const { workspaceStates } = useProjectState();
@@ -73,8 +74,8 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
   );
   const parsedData = useMemo(
     () =>
-      priorityChartData && parseChartData(priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping),
-    [priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping]
+      priorityChartData && parseChartData(priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping, dateFnsLocale),
+    [priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping, dateFnsLocale]
   );
   const chart_model = props.group_by ? EChartModels.STACKED : EChartModels.BASIC;
 

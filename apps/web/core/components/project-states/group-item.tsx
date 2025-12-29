@@ -72,7 +72,7 @@ export const GroupItem = observer(function GroupItem(props: TGroupItem) {
           <div className="flex-shrink-0 w-6 h-6 rounded-sm flex justify-center items-center overflow-hidden">
             <StateGroupIcon stateGroup={groupKey} size={EIconSize.XL} />
           </div>
-          <div className="text-14 font-medium text-secondary capitalize px-1">{groupKey}</div>
+          <div className="text-14 font-medium text-secondary px-1">{t(`workspace_projects.state.${groupKey}`)}</div>
         </div>
         <button
           type="button"

@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Fragment, useCallback, useRef, useState } from "react";
+import { Fragment, useCallback, useMemo, useRef, useState } from "react";
 import { isEmpty } from "lodash-es";
 import { observer } from "mobx-react";
 import { useTheme } from "next-themes";
@@ -7,7 +7,7 @@ import { CalendarCheck } from "lucide-react";
 // headless ui
 import { Tab } from "@headlessui/react";
 // plane imports
-import { useTranslation } from "@plane/i18n";
+import { getDateFnsLocale, useTranslation } from "@plane/i18n";
 import { PriorityIcon } from "@plane/propel/icons";
 import { Tooltip } from "@plane/propel/tooltip";
 import type { TWorkItemFilterCondition } from "@plane/shared-state";
@@ -58,7 +58,8 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
   // theme hook
   const { resolvedTheme } = useTheme();
   // plane hooks
-  const { t } = useTranslation();
+  const { t, currentLocale } = useTranslation();
+  const dateFnsLocale = useMemo(() => getDateFnsLocale(currentLocale), [currentLocale]);
   // derived values
   const priorityResolvedPath = resolvedTheme === "light" ? lightPriorityAsset : darkPriorityAsset;
   const assigneesResolvedPath = resolvedTheme === "light" ? lightAssigneeAsset : darkAssigneeAsset;
@@ -226,7 +227,7 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                                 <div className="h-full flex truncate items-center gap-1.5 rounded-sm text-11 px-2 py-0.5 bg-layer-1 group-hover:bg-surface-1 cursor-pointer">
                                   <CalendarCheck className="h-3 w-3 flex-shrink-0" />
                                   <span className="text-11 truncate">
-                                    {renderFormattedDateWithoutYear(issue.target_date)}
+                                    {renderFormattedDateWithoutYear(issue.target_date, dateFnsLocale)}
                                   </span>
                                 </div>
                               </Tooltip>

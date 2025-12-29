@@ -30,8 +30,8 @@ export function ProfilePriorityDistribution({ userProfile }: Props) {
               className="w-full h-[300px]"
               margin={{ top: 20, right: 30, bottom: 5, left: 0 }}
               data={userProfile.priority_distribution.map((priority) => ({
-                key: priority.priority ?? "None",
-                name: capitalizeFirstLetter(priority.priority ?? "None"),
+                key: priority.priority ?? "none",
+                name: priority.priority ? t(priority.priority) : t("none"),
                 count: priority.priority_count,
               }))}
               bars={[

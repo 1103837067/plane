@@ -6,6 +6,7 @@ import type {
   TInstanceAuthenticationModes,
 } from "@plane/types";
 // assets
+import feishuLogo from "@/app/assets/logos/feishu-logo.svg?url";
 import giteaLogo from "@/app/assets/logos/gitea-logo.svg?url";
 import githubLightModeImage from "@/app/assets/logos/github-black.png?url";
 import githubDarkModeImage from "@/app/assets/logos/github-white.png?url";
@@ -13,6 +14,7 @@ import gitlabLogo from "@/app/assets/logos/gitlab-logo.svg?url";
 import googleLogo from "@/app/assets/logos/google-logo.svg?url";
 // components
 import { EmailCodesConfiguration } from "@/components/authentication/email-config-switch";
+import { FeishuConfiguration } from "@/components/authentication/feishu-config";
 import { GiteaConfiguration } from "@/components/authentication/gitea-config";
 import { GithubConfiguration } from "@/components/authentication/github-config";
 import { GitlabConfiguration } from "@/components/authentication/gitlab-config";
@@ -76,5 +78,12 @@ export const getCoreAuthenticationModesMap: (
     description: "Allow members to log in or sign up to plane with their Gitea accounts.",
     icon: <img src={giteaLogo} height={20} width={20} alt="Gitea Logo" />,
     config: <GiteaConfiguration disabled={disabled} updateConfig={updateConfig} />,
+  },
+  feishu: {
+    key: "feishu",
+    name: "Feishu",
+    description: "Allow members to log in or sign up to plane with their Feishu accounts.",
+    icon: <img src={feishuLogo} height={20} width={20} alt="Feishu Logo" />,
+    config: <FeishuConfiguration disabled={disabled} updateConfig={updateConfig} />,
   },
 });

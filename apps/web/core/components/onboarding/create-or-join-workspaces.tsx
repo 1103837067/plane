@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { OctagonAlert } from "lucide-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import type { IWorkspaceMemberInvitation, TOnboardingSteps } from "@plane/types";
 // components
 import { LogoSpinner } from "@/components/common/logo-spinner";
@@ -30,6 +31,8 @@ export const CreateOrJoinWorkspaces = observer(function CreateOrJoinWorkspaces(p
   const { invitations, totalSteps, stepChange, finishOnboarding } = props;
   // states
   const [currentView, setCurrentView] = useState<ECreateOrJoinWorkspaceViews | null>(null);
+  // hooks
+  const { t } = useTranslation();
   // store hooks
   const { data: user } = useUser();
   // derived values
@@ -72,9 +75,7 @@ export const CreateOrJoinWorkspaces = observer(function CreateOrJoinWorkspaces(p
                 <div className="flex gap-2.5 w-full items-start justify-center text-13 leading-5 mt-4 px-6 py-4 rounded-sm border border-accent-strong/20 bg-accent-primary/10 text-accent-secondary">
                   <OctagonAlert className="flex-shrink-0 size-5 mt-1" />
                   <span>
-                    You don&apos;t seem to have any invites to a workspace and your instance admin has restricted
-                    creation of new workspaces. Please ask a workspace owner or admin to invite you to a workspace first
-                    and come back to this screen to join.
+                    {t("auth.workspace_restriction")}
                   </span>
                 </div>
               </div>

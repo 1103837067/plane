@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { observer } from "mobx-react";
 import Link from "next/link";
 // icons
@@ -73,7 +73,7 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
     }
   }, [csrfPromise]);
 
-  const redirectToUniqueCodeSignIn = async () => {
+  const redirectToUniqueCodeSignIn = () => {
     handleAuthStep(EAuthSteps.UNIQUE_CODE);
   };
 
@@ -129,12 +129,13 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
             <Info size={16} className="text-red-500" />
           </div>
           <div className="w-full text-13 font-medium text-red-500">{t("auth.sign_up.errors.password.strength")}</div>
-          <div
+          <button
+            type="button"
             className="relative ml-auto w-6 h-6 rounded-xs flex justify-center items-center transition-all cursor-pointer hover:bg-red-500/20 text-accent-primary/80"
             onClick={() => setBannerMessage(false)}
           >
             <CloseIcon className="w-4 h-4 flex-shrink-0 text-red-500" />
-          </div>
+          </button>
         </div>
       )}
       <form
@@ -142,9 +143,9 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
         className="space-y-4"
         method="POST"
         action={`${API_BASE_URL}/auth/${mode === EAuthModes.SIGN_IN ? "sign-in" : "sign-up"}/`}
-        onSubmit={async (event) => {
+        onSubmit={(event) => {
           event.preventDefault(); // Prevent form from submitting by default
-          await handleCSRFToken();
+          void handleCSRFToken();
           const isPasswordValid =
             mode === EAuthModes.SIGN_UP
               ? getPasswordStrength(passwordFormData.password) === E_PASSWORD_STRENGTH.STRENGTH_VALID
@@ -314,7 +315,7 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
             </>
           ) : (
             <Button type="submit" variant="primary" className="w-full" size="xl" disabled={isButtonDisabled}>
-              {isSubmitting ? <Spinner height="20px" width="20px" /> : "Create account"}
+              {isSubmitting ? <Spinner height="20px" width="20px" /> : t("auth.create_account_button")}
             </Button>
           )}
         </div>

@@ -1,5 +1,6 @@
 import { ArrowDownWideNarrow, ArrowUpWideNarrow, Check } from "lucide-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { getButtonStyling } from "@plane/propel/button";
 import type { TPageFiltersSortBy, TPageFiltersSortKey } from "@plane/types";
 import { CustomMenu } from "@plane/ui";
@@ -10,17 +11,18 @@ type Props = {
   sortKey: TPageFiltersSortKey;
 };
 
-const PAGE_SORTING_KEY_OPTIONS: {
-  key: TPageFiltersSortKey;
-  label: string;
-}[] = [
-  { key: "name", label: "Name" },
-  { key: "created_at", label: "Date created" },
-  { key: "updated_at", label: "Date modified" },
-];
-
 export function PageOrderByDropdown(props: Props) {
   const { onChange, sortBy, sortKey } = props;
+  const { t } = useTranslation();
+
+  const PAGE_SORTING_KEY_OPTIONS: {
+    key: TPageFiltersSortKey;
+    label: string;
+  }[] = [
+    { key: "name", label: t("project_page.sort.name") },
+    { key: "created_at", label: t("project_page.sort.date_created") },
+    { key: "updated_at", label: t("project_page.sort.date_modified") },
+  ];
 
   const orderByDetails = PAGE_SORTING_KEY_OPTIONS.find((option) => sortKey === option.key);
   const isDescending = sortBy === "desc";
@@ -61,7 +63,7 @@ export function PageOrderByDropdown(props: Props) {
             });
         }}
       >
-        Ascending
+        {t("project_page.sort.ascending")}
         {!isDescending && <Check className="h-3 w-3" />}
       </CustomMenu.MenuItem>
       <CustomMenu.MenuItem
@@ -73,7 +75,7 @@ export function PageOrderByDropdown(props: Props) {
             });
         }}
       >
-        Descending
+        {t("project_page.sort.descending")}
         {isDescending && <Check className="h-3 w-3" />}
       </CustomMenu.MenuItem>
     </CustomMenu>

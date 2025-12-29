@@ -1,3 +1,4 @@
+import type { Locale } from "date-fns";
 import { getWeekOfMonth, isValid } from "date-fns";
 import { CHART_X_AXIS_DATE_PROPERTIES, ChartXAxisDateGrouping, TO_CAPITALIZE_PROPERTIES } from "@plane/constants";
 import type { ChartXAxisProperty, TChart, TChartDatum } from "@plane/types";
@@ -10,7 +11,7 @@ import {
 } from "@plane/utils";
 //
 
-const getDateGroupingName = (date: string, dateGrouping: ChartXAxisDateGrouping): string => {
+const getDateGroupingName = (date: string, dateGrouping: ChartXAxisDateGrouping, locale?: Locale): string => {
   if (!date || ["none", "null"].includes(date.toLowerCase())) return "None";
 
   const formattedData = new Date(date);
@@ -27,17 +28,17 @@ const getDateGroupingName = (date: string, dateGrouping: ChartXAxisDateGrouping)
 
   switch (dateGrouping) {
     case ChartXAxisDateGrouping.DAY:
-      if (isCurrentYear) parsedName = renderFormattedDateWithoutYear(formattedData);
-      else parsedName = renderFormattedDate(formattedData);
+      if (isCurrentYear) parsedName = renderFormattedDateWithoutYear(formattedData, locale);
+      else parsedName = renderFormattedDate(formattedData, "MMM dd, yyyy", locale);
       break;
     case ChartXAxisDateGrouping.WEEK: {
-      const month = renderFormattedDate(formattedData, "MMM");
+      const month = renderFormattedDate(formattedData, "MMM", locale);
       parsedName = `${month}, Week ${getWeekOfMonth(formattedData)}`;
       break;
     }
     case ChartXAxisDateGrouping.MONTH:
-      if (isCurrentYear) parsedName = renderFormattedDate(formattedData, "MMM");
-      else parsedName = renderFormattedDate(formattedData, "MMM, yyyy");
+      if (isCurrentYear) parsedName = renderFormattedDate(formattedData, "MMM", locale);
+      else parsedName = renderFormattedDate(formattedData, "MMM, yyyy", locale);
       break;
     case ChartXAxisDateGrouping.YEAR:
       parsedName = `${year}`;
@@ -53,7 +54,8 @@ export const parseChartData = (
   data: TChart | null | undefined,
   xAxisProperty: ChartXAxisProperty | null | undefined,
   groupByProperty: ChartXAxisProperty | null | undefined,
-  xAxisDateGrouping: ChartXAxisDateGrouping | null | undefined
+  xAxisDateGrouping: ChartXAxisDateGrouping | null | undefined,
+  locale?: Locale
 ): TChart => {
   if (!data) {
     return {
@@ -77,7 +79,7 @@ export const parseChartData = (
 
       // parse timestamp to visual date if xAxisProperty is in WIDGET_X_AXIS_DATE_PROPERTIES
       if (CHART_X_AXIS_DATE_PROPERTIES.includes(xAxisProperty)) {
-        datum.name = getDateGroupingName(datum.name, xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY);
+        datum.name = getDateGroupingName(datum.name, xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY, locale);
       }
     }
 
@@ -98,7 +100,7 @@ export const parseChartData = (
 
     if (CHART_X_AXIS_DATE_PROPERTIES.includes(groupByProperty)) {
       Object.keys(updatedSchema).forEach((key) => {
-        updatedSchema[key] = getDateGroupingName(updatedSchema[key], xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY);
+        updatedSchema[key] = getDateGroupingName(updatedSchema[key], xAxisDateGrouping ?? ChartXAxisDateGrouping.DAY, locale);
       });
     }
   }

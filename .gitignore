@@ -58,6 +58,8 @@ mediafiles
 logs/
 htmlcov/
 .coverage
+*.egg-info
+Plane.egg-info/
 
 node_modules/
 assets/dist/
