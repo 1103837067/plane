@@ -124,7 +124,10 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
   return (
     <>
       {isBannerMessage && mode === EAuthModes.SIGN_UP && (
-        <div className="relative flex items-center p-2 rounded-md gap-2 border border-danger-strong/50 bg-danger-subtle">
+        <div
+          className="relative flex items-center p-2 rounded-md gap-2 border border-danger-strong/50 bg-danger-subtle"
+          role="alert"
+        >
           <div className="w-4 h-4 shrink-0 relative flex justify-center items-center">
             <Info size={16} className="text-danger-primary" />
           </div>
@@ -147,7 +150,6 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
         action={`${API_BASE_URL}/auth/${mode === EAuthModes.SIGN_IN ? "sign-in" : "sign-up"}/`}
         onSubmit={(event) => {
           event.preventDefault(); // Prevent form from submitting by default
-          void handleCSRFToken();
           const isPasswordValid =
             mode === EAuthModes.SIGN_UP
               ? getPasswordStrength(passwordFormData.password) === E_PASSWORD_STRENGTH.STRENGTH_VALID
@@ -163,22 +165,28 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
                 email: passwordFormData.email,
               },
             });
-            if (formRef.current) formRef.current.submit(); // Manually submit the form if the condition is met
+            // Wait for CSRF token to be set before submitting
+            void handleCSRFToken()
+              .then(() => {
+                if (formRef.current) formRef.current.submit();
+                return;
+              })
+              .catch(() => {
+                setIsSubmitting(false);
+                captureError({
+                  eventName:
+                    mode === EAuthModes.SIGN_IN
+                      ? AUTH_TRACKER_EVENTS.sign_in_with_password
+                      : AUTH_TRACKER_EVENTS.sign_up_with_password,
+                  payload: {
+                    email: passwordFormData.email,
+                  },
+                });
+                return;
+              });
           } else {
             setBannerMessage(true);
           }
-        }}
-        onError={() => {
-          setIsSubmitting(false);
-          captureError({
-            eventName:
-              mode === EAuthModes.SIGN_IN
-                ? AUTH_TRACKER_EVENTS.sign_in_with_password
-                : AUTH_TRACKER_EVENTS.sign_up_with_password,
-            payload: {
-              email: passwordFormData.email,
-            },
-          });
         }}
       >
         <input type="hidden" name="csrfmiddlewaretoken" />
@@ -228,7 +236,6 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
               onFocus={() => setIsPasswordInputFocused(true)}
               onBlur={() => setIsPasswordInputFocused(false)}
               autoComplete="on"
-              autoFocus
             />
             <button
               type="button"
