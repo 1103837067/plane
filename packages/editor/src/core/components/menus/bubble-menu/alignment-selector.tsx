@@ -1,6 +1,7 @@
 import type { Editor } from "@tiptap/core";
 import type { LucideIcon } from "lucide-react";
 import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 // plane utils
 import { cn } from "@plane/utils";
 // components
@@ -16,7 +17,8 @@ type Props = {
 
 export function TextAlignmentSelector(props: Props) {
   const { editor, editorState } = props;
-  const menuItem = TextAlignItem(editor);
+  const { t } = useTranslation();
+  const menuItem = TextAlignItem(editor, t);
 
   const textAlignmentOptions: {
     itemKey: TEditorCommands;

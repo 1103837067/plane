@@ -1,6 +1,7 @@
 import { FloatingOverlay } from "@floating-ui/react";
 import type { SuggestionProps } from "@tiptap/suggestion";
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
+import { useTranslation } from "@plane/i18n";
 // plane imports
 import { useOutsideClickDetector } from "@plane/hooks";
 // helpers
@@ -17,6 +18,7 @@ export type SlashCommandsMenuProps = SuggestionProps<TSlashCommandSection, ISlas
 
 export const SlashCommandsMenu = forwardRef(function SlashCommandsMenu(props: SlashCommandsMenuProps, ref) {
   const { items: sections, command, query, onClose } = props;
+  const { t } = useTranslation();
   // states
   const [selectedIndex, setSelectedIndex] = useState({
     section: 0,
@@ -142,33 +144,37 @@ export const SlashCommandsMenu = forwardRef(function SlashCommandsMenu(props: Sl
           e.stopPropagation();
         }}
       >
-        {sections.map((section, sectionIndex) => (
-          <div key={section.key} className="space-y-2">
-            {section.title && <h6 className="text-11 font-semibold text-tertiary">{section.title}</h6>}
-            <div>
-              {section.items?.map((item, itemIndex) => (
-                <CommandMenuItem
-                  key={item.key}
-                  isSelected={sectionIndex === selectedIndex.section && itemIndex === selectedIndex.item}
-                  item={item}
-                  itemIndex={itemIndex}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    selectItem(sectionIndex, itemIndex);
-                  }}
-                  onMouseEnter={() =>
-                    setSelectedIndex({
-                      section: sectionIndex,
-                      item: itemIndex,
-                    })
-                  }
-                  sectionIndex={sectionIndex}
-                  query={query}
-                />
-              ))}
+        {sections.map((section, sectionIndex) => {
+          // Translate section title if it's a translation key
+          const translatedTitle = section.title?.startsWith("editor.") ? t(section.title) : section.title;
+          return (
+            <div key={section.key} className="space-y-2">
+              {translatedTitle && <h6 className="text-11 font-semibold text-tertiary">{translatedTitle}</h6>}
+              <div>
+                {section.items?.map((item, itemIndex) => (
+                  <CommandMenuItem
+                    key={item.key}
+                    isSelected={sectionIndex === selectedIndex.section && itemIndex === selectedIndex.item}
+                    item={item}
+                    itemIndex={itemIndex}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      selectItem(sectionIndex, itemIndex);
+                    }}
+                    onMouseEnter={() =>
+                      setSelectedIndex({
+                        section: sectionIndex,
+                        item: itemIndex,
+                      })
+                    }
+                    sectionIndex={sectionIndex}
+                    query={query}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </>
   );

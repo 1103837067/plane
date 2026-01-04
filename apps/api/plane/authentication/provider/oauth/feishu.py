@@ -192,7 +192,7 @@ class FeishuOAuthProvider(OauthAdapter):
         if not email:
             union_id = user_info.get("union_id")
             email = f"{union_id}@feishu.local" if union_id else f"{open_id}@feishu.local"
-            logger.warning(f"No email configured in Feishu account, using fallback email domain: feishu.local")
+            logger.warning("No email configured in Feishu account, using fallback email domain: feishu.local")
         
         user_data = {
             "email": email,

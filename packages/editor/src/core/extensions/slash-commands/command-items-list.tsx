@@ -59,8 +59,8 @@ export const getSlashCommandFilteredSections =
           {
             commandKey: "text",
             key: "text",
-            title: "Text",
-            description: "Just start typing with plain text.",
+            title: "editor.slash_commands.general.text.title",
+            description: "editor.slash_commands.general.text.description",
             searchTerms: ["p", "paragraph"],
             icon: <CaseSensitive className="size-3.5" />,
             command: ({ editor, range }) => setText(editor, range),
@@ -68,8 +68,8 @@ export const getSlashCommandFilteredSections =
           {
             commandKey: "h1",
             key: "h1",
-            title: "Heading 1",
-            description: "Big section heading.",
+            title: "editor.slash_commands.general.h1.title",
+            description: "editor.slash_commands.general.h1.description",
             searchTerms: ["title", "big", "large"],
             icon: <Heading1 className="size-3.5" />,
             command: ({ editor, range }) => toggleHeading(editor, 1, range),
@@ -77,8 +77,8 @@ export const getSlashCommandFilteredSections =
           {
             commandKey: "h2",
             key: "h2",
-            title: "Heading 2",
-            description: "Medium section heading.",
+            title: "editor.slash_commands.general.h2.title",
+            description: "editor.slash_commands.general.h2.description",
             searchTerms: ["subtitle", "medium"],
             icon: <Heading2 className="size-3.5" />,
             command: ({ editor, range }) => toggleHeading(editor, 2, range),
@@ -86,8 +86,8 @@ export const getSlashCommandFilteredSections =
           {
             commandKey: "h3",
             key: "h3",
-            title: "Heading 3",
-            description: "Small section heading.",
+            title: "editor.slash_commands.general.h3.title",
+            description: "editor.slash_commands.general.h3.description",
             searchTerms: ["subtitle", "small"],
             icon: <Heading3 className="size-3.5" />,
             command: ({ editor, range }) => toggleHeading(editor, 3, range),
@@ -95,8 +95,8 @@ export const getSlashCommandFilteredSections =
           {
             commandKey: "h4",
             key: "h4",
-            title: "Heading 4",
-            description: "Small section heading.",
+            title: "editor.slash_commands.general.h4.title",
+            description: "editor.slash_commands.general.h4.description",
             searchTerms: ["subtitle", "small"],
             icon: <Heading4 className="size-3.5" />,
             command: ({ editor, range }) => toggleHeading(editor, 4, range),
@@ -104,8 +104,8 @@ export const getSlashCommandFilteredSections =
           {
             commandKey: "h5",
             key: "h5",
-            title: "Heading 5",
-            description: "Small section heading.",
+            title: "editor.slash_commands.general.h5.title",
+            description: "editor.slash_commands.general.h5.description",
             searchTerms: ["subtitle", "small"],
             icon: <Heading5 className="size-3.5" />,
             command: ({ editor, range }) => toggleHeading(editor, 5, range),
@@ -113,8 +113,8 @@ export const getSlashCommandFilteredSections =
           {
             commandKey: "h6",
             key: "h6",
-            title: "Heading 6",
-            description: "Small section heading.",
+            title: "editor.slash_commands.general.h6.title",
+            description: "editor.slash_commands.general.h6.description",
             searchTerms: ["subtitle", "small"],
             icon: <Heading6 className="size-3.5" />,
             command: ({ editor, range }) => toggleHeading(editor, 6, range),
@@ -123,8 +123,8 @@ export const getSlashCommandFilteredSections =
           {
             commandKey: "numbered-list",
             key: "numbered-list",
-            title: "Numbered list",
-            description: "Create a numbered list.",
+            title: "editor.slash_commands.general.numbered_list.title",
+            description: "editor.slash_commands.general.numbered_list.description",
             searchTerms: ["ordered"],
             icon: <ListOrdered className="size-3.5" />,
             command: ({ editor, range }) => toggleOrderedList(editor, range),
@@ -132,8 +132,8 @@ export const getSlashCommandFilteredSections =
           {
             commandKey: "bulleted-list",
             key: "bulleted-list",
-            title: "Bulleted list",
-            description: "Create a bulleted list.",
+            title: "editor.slash_commands.general.bulleted_list.title",
+            description: "editor.slash_commands.general.bulleted_list.description",
             searchTerms: ["unordered", "point"],
             icon: <List className="size-3.5" />,
             command: ({ editor, range }) => toggleBulletList(editor, range),
@@ -141,8 +141,8 @@ export const getSlashCommandFilteredSections =
           {
             commandKey: "to-do-list",
             key: "to-do-list",
-            title: "To-do list",
-            description: "Create a to-do list.",
+            title: "editor.slash_commands.general.to_do_list.title",
+            description: "editor.slash_commands.general.to_do_list.description",
             searchTerms: ["todo", "task", "list", "check", "checkbox"],
             icon: <ListTodo className="size-3.5" />,
             command: ({ editor, range }) => toggleTaskList(editor, range),
@@ -150,8 +150,8 @@ export const getSlashCommandFilteredSections =
           {
             commandKey: "table",
             key: "table",
-            title: "Table",
-            description: "Create a table",
+            title: "editor.slash_commands.general.table.title",
+            description: "editor.slash_commands.general.table.description",
             searchTerms: ["table", "cell", "db", "data", "tabular"],
             icon: <Table className="size-3.5" />,
             command: ({ editor, range }) => insertTableCommand(editor, range),
@@ -159,8 +159,8 @@ export const getSlashCommandFilteredSections =
           {
             commandKey: "quote",
             key: "quote",
-            title: "Quote",
-            description: "Capture a quote.",
+            title: "editor.slash_commands.general.quote.title",
+            description: "editor.slash_commands.general.quote.description",
             searchTerms: ["blockquote"],
             icon: <TextQuote className="size-3.5" />,
             command: ({ editor, range }) => toggleBlockquote(editor, range),
@@ -168,8 +168,8 @@ export const getSlashCommandFilteredSections =
           {
             commandKey: "code",
             key: "code",
-            title: "Code",
-            description: "Capture a code snippet.",
+            title: "editor.slash_commands.general.code.title",
+            description: "editor.slash_commands.general.code.description",
             searchTerms: ["codeblock"],
             icon: <Code2 className="size-3.5" />,
             command: ({ editor, range }) => editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
@@ -177,17 +177,17 @@ export const getSlashCommandFilteredSections =
           {
             commandKey: "callout",
             key: "callout",
-            title: "Callout",
+            title: "editor.slash_commands.general.callout.title",
             icon: <MessageSquareText className="size-3.5" />,
-            description: "Insert callout",
+            description: "editor.slash_commands.general.callout.description",
             searchTerms: ["callout", "comment", "message", "info", "alert"],
             command: ({ editor, range }: CommandProps) => insertCallout(editor, range),
           },
           {
             commandKey: "divider",
             key: "divider",
-            title: "Divider",
-            description: "Visually divide blocks.",
+            title: "editor.slash_commands.general.divider.title",
+            description: "editor.slash_commands.general.divider.description",
             searchTerms: ["line", "divider", "horizontal", "rule", "separate"],
             icon: <MinusSquare className="size-3.5" />,
             command: ({ editor, range }) => editor.chain().focus().deleteRange(range).setHorizontalRule().run(),
@@ -195,8 +195,8 @@ export const getSlashCommandFilteredSections =
           {
             commandKey: "emoji",
             key: "emoji",
-            title: "Emoji",
-            description: "Insert an emoji",
+            title: "editor.slash_commands.general.emoji.title",
+            description: "editor.slash_commands.general.emoji.description",
             searchTerms: ["emoji", "icons", "reaction", "emoticon", "emotags"],
             icon: <Smile className="size-3.5" />,
             command: ({ editor, range }) => {
@@ -207,13 +207,13 @@ export const getSlashCommandFilteredSections =
       },
       {
         key: "text-colors",
-        title: "Colors",
+        title: "editor.slash_commands.colors.title",
         items: [
           {
             commandKey: "text-color",
             key: "text-color-default",
-            title: "Default",
-            description: "Change text color",
+            title: "editor.slash_commands.colors.default",
+            description: "editor.slash_commands.colors.description",
             searchTerms: ["color", "text", "default"],
             icon: <ALargeSmall className="size-3.5 text-primary" />,
             command: ({ editor, range }) => toggleTextColor(undefined, editor, range),
@@ -224,7 +224,7 @@ export const getSlashCommandFilteredSections =
                 commandKey: "text-color",
                 key: `text-color-${color.key}`,
                 title: color.label,
-                description: "Change text color",
+                description: "editor.slash_commands.colors.description",
                 searchTerms: ["color", "text", color.label],
 
                 icon: (
@@ -243,13 +243,13 @@ export const getSlashCommandFilteredSections =
       },
       {
         key: "background-colors",
-        title: "Background colors",
+        title: "editor.slash_commands.background_colors.title",
         items: [
           {
             commandKey: "background-color",
             key: "background-color-default",
-            title: "Default background",
-            description: "Change background color",
+            title: "editor.slash_commands.background_colors.default",
+            description: "editor.slash_commands.background_colors.description",
             searchTerms: ["color", "bg", "background", "default"],
             icon: <ALargeSmall className="size-3.5" />,
             iconContainerStyle: {
@@ -265,7 +265,7 @@ export const getSlashCommandFilteredSections =
                 commandKey: "background-color",
                 key: `background-color-${color.key}`,
                 title: color.label,
-                description: "Change background color",
+                description: "editor.slash_commands.background_colors.description",
                 searchTerms: ["color", "bg", "background", color.label],
                 icon: <ALargeSmall className="size-3.5" />,
 
@@ -286,9 +286,9 @@ export const getSlashCommandFilteredSections =
       internalAdditionalOptions.push({
         commandKey: "image",
         key: "image",
-        title: "Image",
+        title: "editor.slash_commands.general.image.title",
         icon: <ImageIcon className="size-3.5" />,
-        description: "Insert an image",
+        description: "editor.slash_commands.general.image.description",
         searchTerms: ["img", "photo", "picture", "media", "upload"],
         command: ({ editor, range }: CommandProps) => insertImage({ editor, event: "insert", range }),
         section: "general",

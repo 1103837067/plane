@@ -1,3 +1,4 @@
+import { useTranslation } from "@plane/i18n";
 // plane utils
 import { cn } from "@plane/utils";
 // types
@@ -42,6 +43,22 @@ const highlightMatch = (text: string, query: string): React.ReactNode => {
 
 export function CommandMenuItem(props: Props) {
   const { isSelected, item, itemIndex, onClick, onMouseEnter, sectionIndex, query } = props;
+  const { t } = useTranslation();
+
+  // Translate the title if it's a translation key (starts with "editor.")
+  // Also translate color names
+  let translatedTitle = item.title;
+  if (item.title.startsWith("editor.")) {
+    translatedTitle = t(item.title);
+  } else {
+    // Try to translate color names
+    const colorKey = item.title.toLowerCase().replace(/\s+/g, "_");
+    const colorTranslationKey = `editor.colors.${colorKey}`;
+    const translated = t(colorTranslationKey);
+    if (translated !== colorTranslationKey) {
+      translatedTitle = translated;
+    }
+  }
 
   return (
     <button
@@ -59,7 +76,7 @@ export function CommandMenuItem(props: Props) {
       <span className="size-5 grid place-items-center flex-shrink-0" style={item.iconContainerStyle}>
         {item.icon}
       </span>
-      <p className="flex-grow truncate text-12">{query ? highlightMatch(item.title, query) : item.title}</p>
+      <p className="flex-grow truncate text-12">{query ? highlightMatch(translatedTitle, query) : translatedTitle}</p>
       {item.badge}
     </button>
   );

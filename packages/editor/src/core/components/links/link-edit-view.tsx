@@ -1,6 +1,7 @@
 import type { Node } from "@tiptap/pm/model";
 import { Link2Off } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "@plane/i18n";
 // components
 import type { LinkViewProps, LinkViews } from "@/components/links";
 // helpers
@@ -37,6 +38,7 @@ type LinkEditViewProps = {
 
 export function LinkEditView({ viewProps }: LinkEditViewProps) {
   const { editor, from, to, url: initialUrl, text: initialText, closeLinkView } = viewProps;
+  const { t } = useTranslation();
 
   // State
   const [positionRef] = useState({ from, to });
@@ -138,13 +140,24 @@ export function LinkEditView({ viewProps }: LinkEditViewProps) {
       }}
       tabIndex={0}
     >
-      <InputView label="URL" placeholder="Enter or paste URL" value={localUrl} onChange={setLocalUrl} autoFocus />
-      <InputView label="Text" placeholder="Enter Text to display" value={localText} onChange={handleTextChange} />
+      <InputView
+        label={t("editor.link_editor.url_label")}
+        placeholder={t("editor.link_editor.url_placeholder")}
+        value={localUrl}
+        onChange={setLocalUrl}
+        autoFocus
+      />
+      <InputView
+        label={t("editor.link_editor.text_label")}
+        placeholder={t("editor.link_editor.text_placeholder")}
+        value={localText}
+        onChange={handleTextChange}
+      />
       <div className="mb-1 bg-strong h-[1px] w-full gap-2" />
       <div className="flex text-13 text-secondary gap-2 items-center">
         <Link2Off size={14} className="inline-block" />
         <button onClick={removeLink} className="cursor-pointer hover:text-placeholder transition-colors">
-          Remove Link
+          {t("editor.link_editor.remove_link")}
         </button>
       </div>
     </div>

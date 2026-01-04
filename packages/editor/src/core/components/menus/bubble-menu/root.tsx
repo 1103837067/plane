@@ -2,8 +2,8 @@ import { isNodeSelection } from "@tiptap/core";
 import type { Editor } from "@tiptap/core";
 import { BubbleMenu, useEditorState } from "@tiptap/react";
 import type { BubbleMenuProps } from "@tiptap/react";
-import type { FC } from "react";
 import { useEffect, useState, useRef } from "react";
+import { useTranslation } from "@plane/i18n";
 // plane utils
 import { cn } from "@plane/utils";
 // components
@@ -69,18 +69,19 @@ type Props = {
 
 export function EditorBubbleMenu(props: Props) {
   const { editor } = props;
+  const { t } = useTranslation();
   // states
   const [isSelecting, setIsSelecting] = useState(false);
   // refs
   const menuRef = useRef<HTMLDivElement>(null);
 
   const formattingItems = {
-    code: CodeItem(editor),
-    bold: BoldItem(editor),
-    italic: ItalicItem(editor),
-    underline: UnderLineItem(editor),
-    strikethrough: StrikeThroughItem(editor),
-    "text-align": TextAlignItem(editor),
+    code: CodeItem(editor, t),
+    bold: BoldItem(editor, t),
+    italic: ItalicItem(editor, t),
+    underline: UnderLineItem(editor, t),
+    strikethrough: StrikeThroughItem(editor, t),
+    "text-align": TextAlignItem(editor, t),
   } satisfies {
     [K in TEditorCommands]?: EditorMenuItem<K>;
   };
@@ -96,8 +97,8 @@ export function EditorBubbleMenu(props: Props) {
       left: formattingItems["text-align"].isActive({ alignment: "left" }),
       right: formattingItems["text-align"].isActive({ alignment: "right" }),
       center: formattingItems["text-align"].isActive({ alignment: "center" }),
-      color: COLORS_LIST.find((c) => TextColorItem(editor).isActive({ color: c.key })),
-      backgroundColor: COLORS_LIST.find((c) => BackgroundColorItem(editor).isActive({ color: c.key })),
+      color: COLORS_LIST.find((c) => TextColorItem(editor, t).isActive({ color: c.key })),
+      backgroundColor: COLORS_LIST.find((c) => BackgroundColorItem(editor, t).isActive({ color: c.key })),
     }),
   });
 

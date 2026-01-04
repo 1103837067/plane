@@ -1,8 +1,8 @@
 import type { Editor } from "@tiptap/core";
 
-import type { FC } from "react";
 import { useCallback, useRef, useState } from "react";
 import { LinkIcon, TrashIcon, CheckIcon } from "@plane/propel/icons";
+import { useTranslation } from "@plane/i18n";
 // plane imports
 import { cn } from "@plane/utils";
 // constants
@@ -19,6 +19,7 @@ type Props = {
 
 export function BubbleMenuLinkSelector(props: Props) {
   const { editor } = props;
+  const { t } = useTranslation();
   // states
   const [error, setError] = useState(false);
   // floating ui
@@ -58,7 +59,7 @@ export function BubbleMenuLinkSelector(props: Props) {
       getReferenceProps={getReferenceProps}
       menuButton={
         <>
-          Link
+          {t("editor.menu_items.link")}
           <LinkIcon className="shrink-0 size-3" />
         </>
       }
@@ -73,7 +74,7 @@ export function BubbleMenuLinkSelector(props: Props) {
           <input
             ref={inputRef}
             type="url"
-            placeholder="Enter or paste a link"
+            placeholder={t("editor.link_editor.enter_or_paste_link")}
             onClick={(e) => e.stopPropagation()}
             className="flex-1 border-r-[0.5px] border-strong bg-surface-1 py-2 px-1.5 text-11 outline-none placeholder:text-placeholder rounded-sm"
             defaultValue={editor.getAttributes("link").href || ""}
@@ -114,7 +115,7 @@ export function BubbleMenuLinkSelector(props: Props) {
         </div>
         {error && (
           <p className="text-11 text-danger-primary my-1 px-2 pointer-events-none animate-in fade-in slide-in-from-top-0">
-            Please enter a valid URL
+            {t("editor.link_editor.invalid_url")}
           </p>
         )}
       </div>

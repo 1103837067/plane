@@ -1,5 +1,6 @@
 import { Maximize } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "@plane/i18n";
 // plane imports
 import { Tooltip } from "@plane/propel/tooltip";
 // local imports
@@ -19,6 +20,7 @@ type Props = {
 
 export function ImageFullScreenActionRoot(props: Props) {
   const { image, isTouchDevice, toggleToolbarViewStatus } = props;
+  const { t } = useTranslation();
   // states
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(false);
   // derived values
@@ -39,7 +41,7 @@ export function ImageFullScreenActionRoot(props: Props) {
         width={width}
         toggleFullScreenMode={setIsFullScreenEnabled}
       />
-      <Tooltip tooltipContent="View in full screen" disabled={isTouchDevice}>
+      <Tooltip tooltipContent={t("editor.image.view_fullscreen")} disabled={isTouchDevice}>
         <button
           type="button"
           onClick={(e) => {
@@ -48,7 +50,7 @@ export function ImageFullScreenActionRoot(props: Props) {
             setIsFullScreenEnabled(true);
           }}
           className="flex-shrink-0 h-full grid place-items-center text-on-color/60 hover:text-on-color transition-colors"
-          aria-label="View image in full screen"
+          aria-label={t("editor.image.view_fullscreen")}
         >
           <Maximize className="size-3" />
         </button>

@@ -7,16 +7,22 @@ import type { IEditorProps } from "@/types";
 type TArgs = {
   placeholder: IEditorProps["placeholder"];
   showPlaceholderOnEmpty: IEditorProps["showPlaceholderOnEmpty"];
+  translateFn?: (key: string) => string;
 };
 
 export const CustomPlaceholderExtension = (args: TArgs) => {
-  const { placeholder, showPlaceholderOnEmpty = false } = args;
+  const { placeholder, showPlaceholderOnEmpty = false, translateFn } = args;
 
   return Placeholder.configure({
     placeholder: ({ editor, node }) => {
       if (!editor.isEditable) return "";
 
-      if (node.type.name === CORE_EXTENSIONS.HEADING) return `Heading ${node.attrs.level}`;
+      if (node.type.name === CORE_EXTENSIONS.HEADING) {
+        const headingText = translateFn
+          ? translateFn("editor.placeholder.heading")
+          : "Heading";
+        return `${headingText} ${node.attrs.level}`;
+      }
 
       const isUploadInProgress = editor.storage.utility?.uploadInProgress;
 
@@ -42,7 +48,9 @@ export const CustomPlaceholderExtension = (args: TArgs) => {
         else return placeholder(editor.isFocused, editor.getHTML());
       }
 
-      return "Press '/' for commands...";
+      return translateFn
+        ? translateFn("editor.placeholder.press_slash_for_commands")
+        : "Press '/' for commands...";
     },
     includeChildren: true,
   });

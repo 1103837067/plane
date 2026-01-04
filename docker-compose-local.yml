@@ -109,19 +109,24 @@ services:
   #     - worker
   #     - web
 
-  # live:
-  #   build:
-  #     context: .
-  #     dockerfile: ./live/Dockerfile.dev
-  #   restart: unless-stopped
-  #   networks:
-  #     - dev_env
-  #   volumes:
-  #     - ./live:/app/live
-  #   depends_on:
-  #     - api
-  #     - worker
-  #     - web
+  live:
+    image: node:22-alpine
+    restart: unless-stopped
+    networks:
+      - dev_env
+    working_dir: /app/apps/live
+    volumes:
+      - .:/app
+    env_file:
+      - ./apps/live/.env
+    environment:
+      - CI=true
+    ports:
+      - "3100:3100"
+    command: sh -c "corepack enable && cd /app && pnpm install && pnpm --filter=live dev"
+    depends_on:
+      - plane-redis
+      - plane-mq
 
   api:
     build:

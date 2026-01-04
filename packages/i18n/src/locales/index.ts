@@ -4,6 +4,7 @@ export { default as enTranslations } from "./en/translations";
 export { default as enAccessibility } from "./en/accessibility";
 export { default as enEditor } from "./en/editor";
 export { default as enEmptyState } from "./en/empty-state";
+export { default as zhCNEditor } from "./zh-CN/editor";
 
 // Export locale data for all supported languages
 export const locales = {

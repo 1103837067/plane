@@ -1,7 +1,7 @@
 import type { Editor } from "@tiptap/react";
 import { ALargeSmall, Ban } from "lucide-react";
 import { useMemo } from "react";
-import type { FC } from "react";
+import { useTranslation } from "@plane/i18n";
 // plane utils
 import { cn } from "@plane/utils";
 // constants
@@ -19,6 +19,7 @@ type Props = {
 
 export function BubbleMenuColorSelector(props: Props) {
   const { editor, editorState } = props;
+  const { t } = useTranslation();
   // floating ui
   const { options, getReferenceProps, getFloatingProps } = useFloatingMenu({});
 
@@ -70,13 +71,13 @@ export function BubbleMenuColorSelector(props: Props) {
                 style={{
                   backgroundColor: color.textColor,
                 }}
-                onClick={() => TextColorItem(editor).command({ color: color.key })}
+                onClick={() => TextColorItem(editor, t).command({ color: color.key })}
               />
             ))}
             <button
               type="button"
               className="flex-shrink-0 size-6 grid place-items-center rounded-sm text-tertiary border-[0.5px] border-strong-1 hover:bg-layer-1 transition-colors"
-              onClick={() => TextColorItem(editor).command({ color: undefined })}
+              onClick={() => TextColorItem(editor, t).command({ color: undefined })}
             >
               <Ban className="size-4" />
             </button>
@@ -93,13 +94,13 @@ export function BubbleMenuColorSelector(props: Props) {
                 style={{
                   backgroundColor: color.backgroundColor,
                 }}
-                onClick={() => BackgroundColorItem(editor).command({ color: color.key })}
+                onClick={() => BackgroundColorItem(editor, t).command({ color: color.key })}
               />
             ))}
             <button
               type="button"
               className="flex-shrink-0 size-6 grid place-items-center rounded-sm text-tertiary border-[0.5px] border-strong-1 hover:bg-layer-1 transition-colors"
-              onClick={() => BackgroundColorItem(editor).command({ color: undefined })}
+              onClick={() => BackgroundColorItem(editor, t).command({ color: undefined })}
             >
               <Ban className="size-4" />
             </button>

@@ -1,6 +1,7 @@
 import { useEditorState, useEditor as useTiptapEditor } from "@tiptap/react";
 import { useImperativeHandle, useEffect } from "react";
 import type { MarkdownStorage } from "tiptap-markdown";
+import { useTranslation } from "@plane/i18n";
 // extensions
 import { CoreEditorExtensions } from "@/extensions";
 // helpers
@@ -46,6 +47,8 @@ export const useEditor = (props: TEditorHookProps) => {
     value,
   } = props;
 
+  const { t } = useTranslation();
+
   const editor = useTiptapEditor(
     {
       editable,
@@ -74,6 +77,7 @@ export const useEditor = (props: TEditorHookProps) => {
           showPlaceholderOnEmpty,
           tabIndex,
           provider,
+          translateFn: t,
         }),
         ...extensions,
       ],
@@ -145,8 +149,9 @@ export const useEditor = (props: TEditorHookProps) => {
         editor,
         getEditorMetaData,
         provider,
+        t,
       }),
-    [editor, getEditorMetaData, provider]
+    [editor, getEditorMetaData, provider, t]
   );
 
   if (!editor) {

@@ -1,7 +1,7 @@
 import type { Editor } from "@tiptap/react";
 
-import type { FC } from "react";
 import { CheckIcon, ChevronDownIcon } from "@plane/propel/icons";
+import { useTranslation } from "@plane/i18n";
 // plane utils
 import { cn } from "@plane/utils";
 // components
@@ -32,22 +32,23 @@ type Props = {
 
 export function BubbleMenuNodeSelector(props: Props) {
   const { editor } = props;
+  const { t } = useTranslation();
   // floating ui
   const { options, getReferenceProps, getFloatingProps } = useFloatingMenu({});
   const { context } = options;
   const items: EditorMenuItem<TEditorCommands>[] = [
-    TextItem(editor),
-    HeadingOneItem(editor),
-    HeadingTwoItem(editor),
-    HeadingThreeItem(editor),
-    HeadingFourItem(editor),
-    HeadingFiveItem(editor),
-    HeadingSixItem(editor),
-    BulletListItem(editor),
-    NumberedListItem(editor),
-    TodoListItem(editor),
-    QuoteItem(editor),
-    CodeItem(editor),
+    TextItem(editor, t),
+    HeadingOneItem(editor, t),
+    HeadingTwoItem(editor, t),
+    HeadingThreeItem(editor, t),
+    HeadingFourItem(editor, t),
+    HeadingFiveItem(editor, t),
+    HeadingSixItem(editor, t),
+    BulletListItem(editor, t),
+    NumberedListItem(editor, t),
+    TodoListItem(editor, t),
+    QuoteItem(editor, t),
+    CodeItem(editor, t),
   ] as EditorMenuItem<TEditorCommands>[];
 
   const activeItem = items.filter((item) => item.isActive()).pop() ?? {

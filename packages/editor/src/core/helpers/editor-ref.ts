@@ -19,10 +19,11 @@ import { scrollSummary, scrollToNodeViaDOMCoordinates } from "./scroll-to-node";
 type TArgs = Pick<IEditorProps, "getEditorMetaData"> & {
   editor: Editor | null;
   provider: HocuspocusProvider | undefined;
+  t?: (key: string) => string;
 };
 
 export const getEditorRefHelpers = (args: TArgs): EditorRefApi => {
-  const { editor, getEditorMetaData, provider } = args;
+  const { editor, getEditorMetaData, provider, t = (key: string) => key } = args;
 
   return {
     blur: () => editor?.commands.blur(),
@@ -132,7 +133,7 @@ export const getEditorRefHelpers = (args: TArgs): EditorRefApi => {
     emitRealTimeUpdate: (message) => provider?.sendStateless(message),
     executeMenuItemCommand: (props) => {
       const { itemKey } = props;
-      const editorItems = getEditorMenuItems(editor);
+      const editorItems = getEditorMenuItems(editor, t);
 
       const getEditorMenuItem = (itemKey: TEditorCommands) => editorItems.find((item) => item.key === itemKey);
 
@@ -187,7 +188,7 @@ export const getEditorRefHelpers = (args: TArgs): EditorRefApi => {
     isEditorReadyToDiscard: () => editor?.storage?.utility?.uploadInProgress === false,
     isMenuItemActive: (props) => {
       const { itemKey } = props;
-      const editorItems = getEditorMenuItems(editor);
+      const editorItems = getEditorMenuItems(editor, t);
 
       const getEditorMenuItem = (itemKey: TEditorCommands) => editorItems.find((item) => item.key === itemKey);
       const item = getEditorMenuItem(itemKey);

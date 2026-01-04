@@ -54,6 +54,7 @@ type TArguments = Pick<
   enableHistory: boolean;
   editable: boolean;
   provider: HocuspocusProvider | undefined;
+  translateFn?: (key: string) => string;
 };
 
 export const CoreEditorExtensions = (args: TArguments): Extensions => {
@@ -71,6 +72,7 @@ export const CoreEditorExtensions = (args: TArguments): Extensions => {
     editable,
     extendedEditorProps,
     provider,
+    translateFn,
   } = args;
 
   const extensions = [
@@ -110,7 +112,7 @@ export const CoreEditorExtensions = (args: TArguments): Extensions => {
     TableCell,
     TableRow,
     CustomMentionExtension(mentionHandler),
-    CustomPlaceholderExtension({ placeholder, showPlaceholderOnEmpty }),
+    CustomPlaceholderExtension({ placeholder, showPlaceholderOnEmpty, translateFn }),
     CharacterCount,
     CustomColorExtension,
     CustomTextAlignExtension,

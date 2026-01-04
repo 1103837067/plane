@@ -5,6 +5,7 @@ import type { LucideIcon } from "lucide-react";
 // extensions
 import type { ISvgIcons } from "@plane/propel/icons";
 import { CopyIcon, TrashIcon, CloseIcon } from "@plane/propel/icons";
+import { useTranslation } from "@plane/i18n";
 import { findTable, getSelectedColumns } from "@/extensions/table/table/utilities/helpers";
 // local imports
 import { duplicateColumns } from "../actions";
@@ -18,19 +19,19 @@ const DROPDOWN_ITEMS: {
 }[] = [
   {
     key: "insert-left",
-    label: "Insert left",
+    label: "editor.table.insert_left",
     icon: ArrowLeft,
     action: (editor) => editor.chain().focus().addColumnBefore().run(),
   },
   {
     key: "insert-right",
-    label: "Insert right",
+    label: "editor.table.insert_right",
     icon: ArrowRight,
     action: (editor) => editor.chain().focus().addColumnAfter().run(),
   },
   {
     key: "duplicate",
-    label: "Duplicate",
+    label: "editor.table.duplicate",
     icon: CopyIcon,
     action: (editor) => {
       const table = findTable(editor.state.selection);
@@ -45,13 +46,13 @@ const DROPDOWN_ITEMS: {
   },
   {
     key: "clear-contents",
-    label: "Clear contents",
+    label: "editor.table.clear_contents",
     icon: CloseIcon,
     action: (editor) => editor.chain().focus().clearSelectedCells().run(),
   },
   {
     key: "delete",
-    label: "Delete",
+    label: "editor.table.delete",
     icon: TrashIcon,
     action: (editor) => editor.chain().focus().deleteColumn().run(),
   },
@@ -64,6 +65,7 @@ type Props = {
 
 export function ColumnOptionsDropdown(props: Props) {
   const { editor, onClose } = props;
+  const { t } = useTranslation();
 
   return (
     <>
@@ -77,7 +79,7 @@ export function ColumnOptionsDropdown(props: Props) {
           onClose();
         }}
       >
-        <div className="flex-grow truncate">Header column</div>
+        <div className="flex-grow truncate">{t("editor.table.header_row")}</div>
         <ToggleRight className="shrink-0 size-3" />
       </button>
       <hr className="my-2 border-subtle" />
@@ -95,7 +97,7 @@ export function ColumnOptionsDropdown(props: Props) {
           }}
         >
           <item.icon className="shrink-0 size-3" />
-          <div className="flex-grow truncate">{item.label}</div>
+          <div className="flex-grow truncate">{t(item.label)}</div>
         </button>
       ))}
     </>

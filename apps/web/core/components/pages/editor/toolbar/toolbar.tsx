@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import type { EditorRefApi } from "@plane/editor";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { CheckIcon, ChevronDownIcon } from "@plane/propel/icons";
 import { Tooltip } from "@plane/propel/tooltip";
 import { CustomMenu } from "@plane/ui";
@@ -23,12 +24,13 @@ type ToolbarButtonProps = {
 
 const ToolbarButton = React.memo(function ToolbarButton(props: ToolbarButtonProps) {
   const { item, isActive, executeCommand } = props;
+  const { t } = useTranslation();
 
   return (
     <Tooltip
       tooltipContent={
         <p className="flex flex-col gap-1 text-center text-11">
-          <span className="font-medium">{item.name}</span>
+          <span className="font-medium">{t(item.name)}</span>
           {item.shortcut && <kbd className="text-placeholder">{item.shortcut.join(" + ")}</kbd>}
         </p>
       }
@@ -64,6 +66,7 @@ const toolbarItems = TOOLBAR_ITEMS.document;
 
 export function PageToolbar(props: Props) {
   const { editorRef } = props;
+  const { t } = useTranslation();
   // states
   const [activeStates, setActiveStates] = useState<Record<string, boolean>>(() => {
     const initialStates: Record<string, boolean> = {};
@@ -122,7 +125,7 @@ export function PageToolbar(props: Props) {
               }
             )}
           >
-            {activeTypography?.name || "Text"}
+            {activeTypography ? t(activeTypography.name) : t("editor.toolbar.text")}
             <ChevronDownIcon className="shrink-0 size-3" />
           </span>
         }
@@ -151,7 +154,7 @@ export function PageToolbar(props: Props) {
           >
             <span className="flex items-center gap-2">
               <item.icon className="size-3" />
-              {item.name}
+              {t(item.name)}
             </span>
             {activeTypography?.itemKey === item.itemKey && <CheckIcon className="size-3 text-tertiary shrink-0" />}
           </CustomMenu.MenuItem>

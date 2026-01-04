@@ -3,6 +3,7 @@ import type { Extensions } from "@tiptap/core";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { useEditor } from "@tiptap/react";
 import { useImperativeHandle } from "react";
+import { useTranslation } from "@plane/i18n";
 // constants
 import { CORE_EDITOR_META } from "@/constants/meta";
 // extensions
@@ -43,6 +44,8 @@ export const useTitleEditor = (props: TUseTitleEditorProps) => {
     getEditorMetaData,
   } = props;
 
+  const { t } = useTranslation();
+
   // Force editor recreation when Y.Doc changes (provider.document.guid)
   const docKey = provider?.document?.guid ?? id;
 
@@ -58,7 +61,7 @@ export const useTitleEditor = (props: TUseTitleEditorProps) => {
         ...TitleExtensions,
         ...(extensions ?? []),
         Placeholder.configure({
-          placeholder: () => "Untitled",
+          placeholder: () => t("editor.placeholder.untitled"),
           includeChildren: true,
           showOnlyWhenEditable: false,
         }),
@@ -73,6 +76,7 @@ export const useTitleEditor = (props: TUseTitleEditorProps) => {
       editor,
       provider,
       getEditorMetaData: getEditorMetaData ?? (() => ({ file_assets: [], user_mentions: [] })),
+      t,
     }),
     clearEditor: (emitUpdate = false) => {
       editor

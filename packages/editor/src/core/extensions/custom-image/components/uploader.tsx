@@ -1,6 +1,7 @@
 import { ImageIcon, RotateCcw } from "lucide-react";
 import type { ChangeEvent } from "react";
 import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useTranslation } from "@plane/i18n";
 // plane imports
 import { cn } from "@plane/utils";
 // constants
@@ -37,6 +38,7 @@ export function CustomImageUploader(props: CustomImageUploaderProps) {
     updateAttributes,
     hasDuplicationFailed,
   } = props;
+  const { t } = useTranslation();
   // refs
   const fileInputRef = useRef<HTMLInputElement>(null);
   const hasTriggeredFilePickerRef = useRef(false);
@@ -179,19 +181,19 @@ export function CustomImageUploader(props: CustomImageUploaderProps) {
   const getDisplayMessage = useCallback(() => {
     const isUploading = isImageBeingUploaded;
     if (isErrorState) {
-      return "Error loading image";
+      return t("editor.image_errors.error_loading");
     }
 
     if (isUploading) {
-      return "Uploading...";
+      return t("editor.image_uploader.uploading");
     }
 
     if (draggedInside && editor.isEditable) {
-      return "Drop image here";
+      return t("editor.image_uploader.drag_and_drop");
     }
 
-    return "Add an image";
-  }, [draggedInside, editor.isEditable, isErrorState, isImageBeingUploaded]);
+    return t("editor.image_uploader.upload_image");
+  }, [draggedInside, editor.isEditable, isErrorState, isImageBeingUploaded, t]);
 
   const handleRetryClick = useCallback(
     (e: React.MouseEvent) => {
@@ -242,10 +244,10 @@ export function CustomImageUploader(props: CustomImageUploaderProps) {
               "hover:bg-danger-subtle-hover": selected,
             }
           )}
-          title="Retry duplication"
+          title={t("editor.image.retry_upload")}
         >
           <RotateCcw className="size-3" />
-          <span className="text-11">Retry</span>
+          <span className="text-11">{t("editor.image.retry")}</span>
         </button>
       )}
       <input
